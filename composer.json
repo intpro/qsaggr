@@ -1,0 +1,33 @@
+{
+    "name": "interpro/qsaggr",
+    "description": "Универсальное быстроразворачиваемое хранилище.",
+    "version": "1.0.1",
+    "require": {
+        "interpro/core": "1.0.*",
+        "interpro/extractor": "1.0.*"
+    },
+    "keywords": [
+        "qsaggr"
+    ],
+    "license": "MIT",
+    "authors": [
+    {
+        "name": "Boris Dorofeev",
+        "email": "boris.dorofeev@gmail.com"
+    }
+    ],
+    "autoload": {
+        "classmap": [],
+        "files": [],
+        "psr-4": {
+        "Interpro\\QS\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable" : true
+}
