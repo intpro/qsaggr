@@ -115,6 +115,8 @@ class QSQuerier
         foreach($join_fields as $field)
         {
             if ($field === 'title' or
+                $field === 'created_at' or
+                $field === 'updated_at' or
                 $field === 'slug' or
                 $field === 'sorter' or
                 $field === 'id' or
@@ -155,6 +157,8 @@ class QSQuerier
             $model_table.'.id',
             $model_table.'.name',
             $model_table.'.title',
+            $model_table.'.created_at',
+            $model_table.'.updated_at',
             $model_table.'.slug',
             $model_table.'.sorter',
             $model_table.'.show'

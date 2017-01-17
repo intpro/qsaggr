@@ -5,24 +5,6 @@ namespace Interpro\QS;
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Interpro\Core\Contracts\Mediator\DestructMediator;
-use Interpro\Core\Contracts\Mediator\InitMediator;
-use Interpro\Core\Contracts\Mediator\RefConsistMediator;
-use Interpro\Core\Contracts\Mediator\UpdateMediator;
-use Interpro\Core\Contracts\Taxonomy\TypeRegistrator;
-use Interpro\Core\Contracts\Taxonomy\TypesForecastList;
-use Interpro\Extractor\Contracts\Creation\CItemBuilder;
-use Interpro\Extractor\Contracts\Creation\CollectionFactory;
-use Interpro\Extractor\Contracts\Db\JoinMediator;
-use Interpro\Extractor\Contracts\Db\MappersMediator;
-use Interpro\QS\Creation\QSItemFactory;
-use Interpro\QS\Db\QSAMapper;
-use Interpro\QS\Db\QSJoiner;
-use Interpro\QS\Db\QSQuerier;
-use Interpro\QS\Executors\Destructor;
-use Interpro\QS\Executors\Initializer;
-use Interpro\QS\Executors\RefConsistExecutor;
-use Interpro\QS\Executors\UpdateExecutor;
 
 class QSFirstServiceProvider extends ServiceProvider
 {

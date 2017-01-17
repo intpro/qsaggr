@@ -32,7 +32,7 @@ class QSAMapper implements AMapper
     private $tuner;
     private $items = [];
     private $collections = [];
-    private $local_fields = ['id', 'name', 'slug', 'title', 'sorter', 'show'];
+    private $local_fields = ['id', 'name', 'slug', 'title', 'sorter', 'show', 'updated_at', 'created_at'];
 
     public function __construct(QSItemFactory $factory, CollectionFactory $collectionFactory, CItemBuilder $cItemBuilder, MappersMediator $mappersMediator, QSQuerier $qsQuerier, Tuner $tuner)
     {
@@ -167,8 +167,6 @@ class QSAMapper implements AMapper
 
             return $collection->getItem($id);
         }
-
-        $id = $ref->getId();
 
         $result = $this->qsQuerier->selectByRef($ref);
         $result = $result->get();

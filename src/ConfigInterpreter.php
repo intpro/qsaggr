@@ -44,6 +44,8 @@ class ConfigInterpreter
         $fields_pattern['title']  = 'string';
         $fields_pattern['sorter'] = 'int';
         $fields_pattern['show']   = 'bool';
+        $fields_pattern['updated_at'] = 'timestamp';
+        $fields_pattern['created_at'] = 'timestamp';
     }
 
     private function addImageSet(& $patterns, $block_name, $superior_type, $set_name, $image_name)
@@ -178,6 +180,7 @@ class ConfigInterpreter
         //Проверка на наличие обязательных скалярных типов для предопределённых полей
 
         $c_names = $this->forecastList->getCTypeNames();
+        $b_names = $this->forecastList->getBTypeNames();
 
         if(!in_array('string', $c_names))
         {
@@ -192,6 +195,16 @@ class ConfigInterpreter
         if(!in_array('bool', $c_names))
         {
             throw new QSException('Не зарегестрировано имя типа bool, интерпретация предопределенных полей не возможна!');
+        }
+
+        if(!in_array('timestamp', $c_names))
+        {
+            throw new QSException('Не зарегестрировано имя типа timestamp (метка времени), интерпретация предопределенных полей не возможна!');
+        }
+
+        if(!in_array('image', $b_names))
+        {
+            throw new QSException('Не зарегестрировано имя типа image, интерпретация полей картинок в imageset не возможна!');
         }
     }
 
