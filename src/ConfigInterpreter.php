@@ -51,6 +51,9 @@ class ConfigInterpreter
     private function addImageSet(& $patterns, $block_name, $superior_type, $set_name, $image_name)
     {
         $patterns[$set_name] = ['owns' => [], 'refs' => []];
+
+        $this->addGroupPredefinedOwns($patterns[$set_name]['owns']);
+
         $patterns[$set_name]['rank'] = TypeRank::GROUP;
         $patterns[$set_name]['owns'][$image_name] = 'image';
         $patterns[$set_name]['refs']['block_name'] = $block_name;
