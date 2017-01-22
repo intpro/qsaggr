@@ -3,6 +3,7 @@
 namespace Interpro\QS\Executors;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Interpro\Core\Contracts\Executor\AInitializer;
 use Interpro\Core\Contracts\Mediator\InitMediator;
 use Interpro\Core\Contracts\Mediator\RefConsistMediator;
@@ -24,6 +25,30 @@ class Initializer implements AInitializer
     {
         $this->initMediator = $initMediator;
         $this->refConsistMediator = $refConsistMediator;
+    }
+
+    protected function enumerate($stname, $sid, $refname, $name, $id)
+    {
+        $query = Group::query();
+
+        $query->where('id', '=', $id);
+
+        $refs_query = Ref::selectRaw('entity_id')
+            ->whereRaw('entity_name = "'.$name.'"')
+            ->whereRaw('name = "'.$refname.'"')
+            ->whereRaw('ref_entity_name = "'.$stname.'"')
+            ->whereRaw('ref_entity_id = "'.$sid.'"');
+
+        $sorter_query = Group::selectRaw('MAX(sorter)+1 AS next_sorter')
+        ->whereRaw('id in '.DB::raw('('.$refs_query->toSql().')'));
+
+        $query->leftJoin(DB::raw('('.$sorter_query->toSql().') AS nextst'), function($join)
+        {
+            //внимание!, костыль, как сделать join без on секции сразу не нашел
+            $join->on('nextst.next_sorter', '=', 'nextst.next_sorter');
+        });
+
+        $query->update(['sorter' => DB::raw('nextst.next_sorter')]);
     }
 
     /**
@@ -137,7 +162,7 @@ class Initializer implements AInitializer
             }
             else
             {
-                $model->sorter = 999;
+                $model->sorter = 0;
             }
 
             $model->save();
@@ -151,6 +176,9 @@ class Initializer implements AInitializer
 
         //----------------------------------------------------------------------
         $refs = $type->getRefs();
+
+        $sid = 0;
+        $stname = '';
 
         foreach($refs as $ref_name => $ref)
         {
@@ -186,6 +214,18 @@ class Initializer implements AInitializer
             $ref->ref_entity_id = $ref_entity_id;
 
             $ref->save();
+
+            if($ref_name === 'superior')
+            {
+                $sid = $ref_entity_id;
+                $stname = $ref_type_name;
+            }
+        }
+
+
+        if($stname)
+        {
+            $this->enumerate($stname, $sid, 'superior', $type_name, $id);
         }
 
 
