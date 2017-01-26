@@ -109,7 +109,7 @@ class UpdateExecutor implements AUpdateExecutor
 
             if(array_key_exists('slug', $values))
             {
-                if($this->slugExist($values['slug']))
+                if($values['slug'] !== $model->slug and $this->slugExist($values['slug']))
                 {
                     throw new QSException('Значение slug '.$values['slug'].' для типа '.$type_name.' уже занято!');
                 }
