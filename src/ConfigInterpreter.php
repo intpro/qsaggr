@@ -44,6 +44,7 @@ class ConfigInterpreter
         $fields_pattern['title']  = 'string';
         $fields_pattern['sorter'] = 'int';
         $fields_pattern['show']   = 'bool';
+        $fields_pattern['predefined'] = 'bool';
         $fields_pattern['updated_at'] = 'timestamp';
         $fields_pattern['created_at'] = 'timestamp';
     }

@@ -68,7 +68,7 @@ class QSJoiner implements Joiner
             }
             else
             {
-                if($levelx_field_name === 'slug' or $levelx_field_name === 'title' or $levelx_field_name === 'sorter' or $levelx_field_name === 'show' or $levelx_field_name === 'name')//Собственное поле
+                if($levelx_field_name === 'slug' or $levelx_field_name === 'title' or $levelx_field_name === 'sorter' or $levelx_field_name === 'predefined' or $levelx_field_name === 'show' or $levelx_field_name === 'name')//Собственное поле
                 {
                     $sub_q = new QueryBuilder(DB::table($model_table));
 

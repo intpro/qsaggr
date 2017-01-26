@@ -16,6 +16,7 @@ class QSFirstServiceProvider extends ServiceProvider
         Log::info('Загрузка QSFirstServiceProvider');
 
         $this->publishes([__DIR__.'/config/qs.php' => config_path('interpro/qs.php')]);
+        $this->publishes([__DIR__.'/config/predefinedqs.php' => config_path('interpro/predefinedqs.php')]);
 
         $this->publishes([
             __DIR__.'/migrations' => database_path('migrations')

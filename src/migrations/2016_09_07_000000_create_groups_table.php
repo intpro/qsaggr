@@ -21,6 +21,7 @@ class CreateGroupsTable extends Migration
             $table->string('title');
             $table->integer('sorter');
             $table->boolean('show');
+            $table->boolean('predefined');
 
             $table->timestamps();
         });

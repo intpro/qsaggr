@@ -64,7 +64,7 @@ class UpdateExecutor implements AUpdateExecutor
 
         $type_rank = $type->getRank();
 
-        $self_fields = ['slug', 'title','sorter','show'];
+        $self_fields = ['slug', 'title','sorter', 'predefined','show'];
 
         //[[[
         DB::beginTransaction();
@@ -109,7 +109,7 @@ class UpdateExecutor implements AUpdateExecutor
 
             if(array_key_exists('slug', $values))
             {
-                if($this->slugExist($values['slug']))
+                if($values['slug'] !== $model->slug and $this->slugExist($values['slug']))
                 {
                     throw new QSException('Значение slug '.$values['slug'].' для типа '.$type_name.' уже занято!');
                 }
@@ -120,6 +120,11 @@ class UpdateExecutor implements AUpdateExecutor
             if(array_key_exists('sorter', $values))
             {
                 $model->sorter = $values['sorter'];
+            }
+
+            if(array_key_exists('predefined', $values))
+            {
+                throw new QSException('Значение predefined(bool) для типа '.$type_name.' устанавливается только при инициализации!');
             }
 
             $model->save();

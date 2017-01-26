@@ -83,7 +83,7 @@ class Initializer implements AInitializer
     {
         $type_name = $type->getName();
 
-        $self_fields = ['id', 'name', 'slug', 'title', 'sorter', 'show'];
+        $self_fields = ['id', 'name', 'slug', 'title', 'sorter', 'show', 'predefined'];
 
         //[[[
         DB::beginTransaction();
@@ -163,6 +163,15 @@ class Initializer implements AInitializer
             else
             {
                 $model->sorter = 0;
+            }
+
+            if(array_key_exists('predefined', $defaults))
+            {
+                $model->predefined = $defaults['predefined'];
+            }
+            else
+            {
+                $model->predefined = false;
             }
 
             $model->save();

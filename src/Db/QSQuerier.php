@@ -119,6 +119,7 @@ class QSQuerier
                 $field === 'updated_at' or
                 $field === 'slug' or
                 $field === 'sorter' or
+                $field === 'predefined' or
                 $field === 'id' or
                 $field === 'name' or
                 $field === 'show')
@@ -161,10 +162,11 @@ class QSQuerier
             $model_table.'.updated_at',
             $model_table.'.slug',
             $model_table.'.sorter',
+            $model_table.'.predefined',
             $model_table.'.show'
         ];
 
-        //Сначала подсоединяем все, кроме slug, title, sorter, show
+        //Сначала подсоединяем все, кроме slug, title, sorter, show ...
         //$field - путь к полю разделенный точками
         foreach($join_array['sub_levels'] as $level0_field_name => $sub_array)
         {

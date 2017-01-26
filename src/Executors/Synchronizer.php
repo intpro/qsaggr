@@ -36,7 +36,7 @@ class Synchronizer implements ASynchronizerInterface
     {
         $aRef = new ARef($type, $id);
 
-        $self_owns = ['id', 'name', 'slug', 'title', 'sorter', 'show'];
+        $self_owns = ['id', 'name', 'slug', 'title', 'sorter', 'predefined', 'show'];
 
         $owns = $type->getOwns();
 
