@@ -13,7 +13,7 @@ class QSFirstServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $dispatcher)
     {
-        Log::info('Загрузка QSFirstServiceProvider');
+        //Log::info('Загрузка QSFirstServiceProvider');
 
         $this->publishes([__DIR__.'/config/qs.php' => config_path('interpro/qs.php')]);
         $this->publishes([__DIR__.'/config/predefinedqs.php' => config_path('interpro/predefinedqs.php')]);
@@ -28,7 +28,7 @@ class QSFirstServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Log::info('Регистрация QSFirstServiceProvider');
+       //Log::info('Регистрация QSFirstServiceProvider');
 
         //Регистрируем имена, для интерпретации типов при загрузке
         $forecastList = $this->app->make('Interpro\Core\Contracts\Taxonomy\TypesForecastList');

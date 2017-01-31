@@ -59,9 +59,9 @@ class Initializer implements AInitializer
         return 'qs';
     }
 
-    private function slugExist($slug)
+    private function slugExist($name, $slug)
     {
-        $collection = Group::where('slug', $slug)->get();
+        $collection = Group::where('slug', $slug)->where('name', $name)->get();
 
         return !$collection->isEmpty();
     }
@@ -139,12 +139,12 @@ class Initializer implements AInitializer
             }
             else
             {
-                $model->title = 'Блок '.$type_name;
+                $model->title = 'Элемент группы '.$type_name;
             }
 
             if(array_key_exists('slug', $defaults))
             {
-                if($this->slugExist($defaults['slug']))
+                if($this->slugExist($type_name, $defaults['slug']))
                 {
                     throw new QSException('Значение slug '.$defaults['slug'].' для типа '.$type_name.' уже занято!');
                 }
@@ -232,7 +232,7 @@ class Initializer implements AInitializer
         }
 
 
-        if($stname)
+        if($stname and !array_key_exists('sorter', $defaults))
         {
             $this->enumerate($stname, $sid, 'superior', $type_name, $id);
         }

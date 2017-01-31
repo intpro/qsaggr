@@ -11,6 +11,7 @@ use Interpro\Core\Contracts\Mediator\InitMediator;
 use Interpro\Core\Contracts\Mediator\RefConsistMediator;
 use Interpro\Core\Contracts\Mediator\SyncMediator;
 use Interpro\Core\Contracts\Mediator\UpdateMediator;
+use Interpro\Core\Contracts\Taxonomy\Taxonomy;
 use Interpro\Extractor\Contracts\Creation\CItemBuilder;
 use Interpro\Extractor\Contracts\Creation\CollectionFactory;
 use Interpro\Extractor\Contracts\Db\JoinMediator;
@@ -32,6 +33,7 @@ class QSSecondServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(Dispatcher $dispatcher,
+                         Taxonomy $taxonomy,
                          CollectionFactory $collectionFactory,
                          MappersMediator $mappersMediator,
                          JoinMediator $joinMediator,
@@ -43,7 +45,7 @@ class QSSecondServiceProvider extends ServiceProvider
                          RefConsistMediator $refConsistMediator,
                          Tuner $tuner)
     {
-        Log::info('Загрузка QSSecondServiceProvider');
+        //Log::info('Загрузка QSSecondServiceProvider');
 
         $querier = new QSQuerier($joinMediator);
 
@@ -67,6 +69,10 @@ class QSSecondServiceProvider extends ServiceProvider
         $updateExecutor = new UpdateExecutor($refConsistMediator, $updateMediator);
         $updateMediator->registerAUpdateExecutor($updateExecutor);
 
+        $pgi_conf = config('interpro.predefinedqs', []);
+        $predefinedGroupItemsSynchronizer = new PredefinedGroupItemsSynchronizer($initializer, $updateExecutor, $taxonomy, $pgi_conf);
+        $syncMediator->registerPredefinedGroupItemsSynchronizer($predefinedGroupItemsSynchronizer);
+
         $destructor = new Destructor($refConsistMediator, $destructMediator);
         $destructMediator->registerADestructor($destructor);
 
@@ -80,7 +86,7 @@ class QSSecondServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Log::info('Регистрация QSSecondServiceProvider');
+        //Log::info('Регистрация QSSecondServiceProvider');
 
         $config = config('interpro.qs');
 

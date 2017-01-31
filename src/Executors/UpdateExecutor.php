@@ -35,9 +35,9 @@ class UpdateExecutor implements AUpdateExecutor
         return 'qs';
     }
 
-    private function slugExist($slug)
+    private function slugExist($name, $slug)
     {
-        $collection = Group::where('slug', $slug)->get();
+        $collection = Group::where('slug', $slug)->where('name', $name)->get();
 
         return !$collection->isEmpty();
     }
@@ -97,6 +97,21 @@ class UpdateExecutor implements AUpdateExecutor
                 throw new QSException('Не найден элемент группы '.$type_name.'('.$id.')!');
             }
 
+            if(array_key_exists('slug', $values))
+            {
+                if($model->predefined)
+                {
+                    throw new QSException('Нельзя изменять slug для предопределенного элемента '.$type_name.' уже установлено: '.$model->slug.', передано '.$values['slug'].'!');
+                }
+
+                if($values['slug'] !== $model->slug and $this->slugExist($type_name, $values['slug']))
+                {
+                    throw new QSException('Значение slug '.$values['slug'].' для типа '.$type_name.' уже занято!');
+                }
+
+                $model->slug = $values['slug'];
+            }
+
             if(array_key_exists('show', $values))
             {
                 $model->show = (bool) $values['show'];
@@ -107,16 +122,6 @@ class UpdateExecutor implements AUpdateExecutor
                 $model->title = $values['title'];
             }
 
-            if(array_key_exists('slug', $values))
-            {
-                if($values['slug'] !== $model->slug and $this->slugExist($values['slug']))
-                {
-                    throw new QSException('Значение slug '.$values['slug'].' для типа '.$type_name.' уже занято!');
-                }
-
-                $model->slug = $values['slug'];
-            }
-
             if(array_key_exists('sorter', $values))
             {
                 $model->sorter = $values['sorter'];
@@ -124,7 +129,8 @@ class UpdateExecutor implements AUpdateExecutor
 
             if(array_key_exists('predefined', $values))
             {
-                throw new QSException('Значение predefined(bool) для типа '.$type_name.' устанавливается только при инициализации!');
+                //С помощью update можно включить, но выключить нельзя, только удалить
+                $model->predefined = ($model->predefined or $values['predefined']);
             }
 
             $model->save();

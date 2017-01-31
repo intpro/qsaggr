@@ -217,6 +217,30 @@ class ConfigInterpreter
         return new ATypeManifest('qs', $type_name, $typeRank, $owns, $refs);
     }
 
+    private function addTextImagesBlock(array & $config, $block_name = 'textfield_block')
+    {
+        if(!array_key_exists($block_name, $config) or !is_array($config[$block_name]))
+        {
+            $config[$block_name] = [
+                'imageset' => ['default_imageset' => 'image_item']
+            ];
+        }
+
+        $block_config = & $config[$block_name];
+
+        if(!array_key_exists('imageset', $block_config) or !is_array($block_config['imageset']))
+        {
+            $block_config['imageset'] = ['default_imageset' => 'image_item'];
+        }
+
+        $imageset_config = & $block_config['imageset'];
+
+        if(count($imageset_config) === 0)
+        {
+            $imageset_config['default_imageset'] = 'image_item';
+        }
+    }
+
     /**
      * @param array $config
      *
@@ -227,6 +251,8 @@ class ConfigInterpreter
         $manifests = new ManifestsCollection();
 
         $this->checkNames();
+
+        $this->addTextImagesBlock($config);
 
         $patterns = $this->scan($config);
 
