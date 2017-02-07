@@ -13,7 +13,6 @@ use Interpro\QS\Executors\UpdateExecutor;
 use Interpro\QS\Model\Group;
 use Interpro\QS\Model\Ref;
 use Interpro\Core\Contracts\Executor\PredefinedGroupItemsSynchronizer as PredefinedGroupItemsSynchronizerInterface;
-use Symfony\Component\Console\Tests\Output\ConsoleOutputTest;
 
 class PredefinedGroupItemsSynchronizer implements PredefinedGroupItemsSynchronizerInterface
 {

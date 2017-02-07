@@ -26,6 +26,8 @@ use Interpro\QS\Executors\Initializer;
 use Interpro\QS\Executors\RefConsistExecutor;
 use Interpro\QS\Executors\Synchronizer;
 use Interpro\QS\Executors\UpdateExecutor;
+use Interpro\QS\Service\DbCleaner;
+use Interpro\Service\Contracts\CleanMediator;
 
 class QSSecondServiceProvider extends ServiceProvider
 {
@@ -43,7 +45,8 @@ class QSSecondServiceProvider extends ServiceProvider
                          UpdateMediator $updateMediator,
                          DestructMediator $destructMediator,
                          RefConsistMediator $refConsistMediator,
-                         Tuner $tuner)
+                         Tuner $tuner,
+                         CleanMediator $cleanMediator)
     {
         //Log::info('Загрузка QSSecondServiceProvider');
 
@@ -78,6 +81,10 @@ class QSSecondServiceProvider extends ServiceProvider
 
         $refConsistExecutor = new RefConsistExecutor();
         $refConsistMediator->registerRefConsistExecutor($refConsistExecutor);
+
+
+        $cleaner = new DbCleaner($taxonomy);
+        $cleanMediator->registerCleaner($cleaner);
 
     }
 
