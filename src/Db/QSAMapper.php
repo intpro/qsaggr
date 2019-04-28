@@ -5,6 +5,7 @@ namespace Interpro\QS\Db;
 use Interpro\Core\Contracts\Ref\ARef;
 use Interpro\Core\Contracts\Taxonomy\Fields\OwnField;
 use Interpro\Core\Contracts\Taxonomy\Fields\RefField;
+use Interpro\Core\Helpers;
 use Interpro\Core\Taxonomy\Enum\TypeMode;
 use Interpro\Core\Taxonomy\Enum\TypeRank;
 use Interpro\Extractor\Contracts\Collections\MapBCollection;
@@ -169,7 +170,7 @@ class QSAMapper implements AMapper
         }
 
         $result = $this->qsQuerier->selectByRef($ref);
-        $result = $result->get();
+        $result = Helpers::laravel_db_result_to_array($result->get());
 
         if(count($result) === 0)
         {
@@ -255,7 +256,7 @@ class QSAMapper implements AMapper
 
         $qb = $this->qsQuerier->selectByUnit($selectionUnit);
 
-        $result_array = $qb->get();
+        $result_array = Helpers::laravel_db_result_to_array($qb->get());
 
         $id_set = array_column($result_array, 'id');
 

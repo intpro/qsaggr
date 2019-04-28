@@ -85,6 +85,8 @@ class Initializer implements AInitializer
 
         $self_fields = ['id', 'name', 'slug', 'title', 'sorter', 'show', 'predefined'];
 
+        //file_put_contents('/home/boris/sites/development/PRINT_R', print_r($type->getName().PHP_EOL, true), FILE_APPEND);
+
         //[[[
         DB::beginTransaction();
 
