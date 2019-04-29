@@ -9,6 +9,7 @@ use Interpro\Extractor\Contracts\Db\JoinMediator;
 use Interpro\Extractor\Contracts\Selection\SelectionUnit;
 use Interpro\Extractor\Db\QueryBuilder;
 use Interpro\QS\Exception\QSException;
+use Interpro\Core\Helpers;
 
 class QSQuerier
 {
@@ -33,7 +34,7 @@ class QSQuerier
             $refs_query->where('refs.entity_id', '=', $owner_id);
         }
 
-        $refs_result = $refs_query->get();
+        $refs_result = Helpers::laravel_db_result_to_array($refs_query->get());
         $refs_values = [];
 
         foreach($refs_result as $ref_array)

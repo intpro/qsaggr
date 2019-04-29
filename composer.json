@@ -1,7 +1,7 @@
 {
     "name": "interpro/qsaggr",
     "description": "Универсальное быстроразворачиваемое хранилище.",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "require": {
         "interpro/core": "1.2.*",
         "interpro/extractor": "1.0.*",
